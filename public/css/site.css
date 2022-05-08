@@ -1,0 +1,36 @@
+.navbar-default {
+  background-color: #356eff;
+  border-color: #356eff;
+  border-bottom-color: #333;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:focus, 
+.navbar-default .navbar-nav > .active > a:hover {
+background-color: #3543ff;
+  color: rgb(255, 255, 175);
+}
+
+.navbar-default .navbar-nav > li > a:focus, 
+.navbar-default .navbar-nav > li > a:hover {
+  color: rgb(255, 255, 175);
+}
+
+.navbar-default .navbar-nav > li > a {
+color: white;
+}
+
+
+.navbar-default .navbar-brand {
+  color: white;
+}
+
+.navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
+color: rgb(255, 255, 175);
+background-color: transparent;
+}
+
+body {
+  color: white;
+  background: #333;
+}
