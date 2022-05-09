@@ -5,10 +5,10 @@ var departments = new Array();
 var fs = require('fs');
 var exports = module.exports = {};
 
-//
+
 exports.initialize = function() {
-  fs.readFile('data/employees.json', 'utf-8', (err, data) => {employees = JSON.parse(data);});
-  fs.readFile('data/departments.json', 'utf-8', (err, data) => {departments = JSON.parse(data);});
+  fs.readFile('./data/employees.json', 'utf-8', (err, data) => {employees = JSON.parse(data);});
+  fs.readFile('./data/departments.json', 'utf-8', (err, data) => {departments = JSON.parse(data);});
 
   return new Promise((resolve, reject) => {
     resolve("Successful!!!");
@@ -37,7 +37,7 @@ exports.getManagers = function() {
 
 exports.getDepartments = function() {
   return new Promise((resolve, reject) => {
-    resolve(department);
+    resolve(departments);
     if(departments.length == 0) {
       reject("no results returned");
     }

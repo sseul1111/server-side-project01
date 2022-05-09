@@ -8,28 +8,28 @@ var HTTP_PORT = process.env.PORT || 8080;
 app.use(express.static('public')); 
 
 // setting up default route
-app.get("/", function(req,res) {
-  res.sendFile(path.join(__dirname,"/views/home.html"));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname + "/views/home.html"));
 });
 
 // setting up route for /about
-app.get("/about", function(req,res) {
-  res.sendFile(path.join(__dirname,"/views/about.html"));
+app.get("/about", (req, res) => {
+  res.sendFile(path.join(__dirname + "/views/about.html"));
 });
 
-app.get("/employees", function(req,res) {
-  dataService.getAllemployees()
+app.get("/employees", (req, res) => {
+  dataService.getAllEmployees()
   .then((data) => res.json(data))
   .catch((err) => res.json({"message" : err}))
 });
 
-app.get("/managers", function(req,res) {
+app.get("/managers", (req, res) => {
   dataService.getManagers()
   .then((data) => res.json(data))
   .catch((err) => res.json({"message" : err}))
 });
 
-app.get("/department", function(req,res) {
+app.get("/departments", (req, res) => {
   dataService.getDepartments()
   .then((data) => res.json(data))
   .catch((err) => res.json({"message" : err}))
