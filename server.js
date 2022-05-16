@@ -5,8 +5,17 @@ const dataService = require('./data-service.js');
 const multer = require("multer");
 const bodyParser = require("body-parser");
 var fs = require('fs');
+const handlebar = require("express-handlebars");
 
 const HTTP_PORT = process.env.PORT || 8080;
+
+app.use(express.static('public')); 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(req,res,next){
+  let route = req.baseUrl + req.path;
+  app.locals.activeRoute = (route == "/") ? "/" : route.replace(/\/$/, "");
+  next();
+});
 
 const storage = multer.diskStorage({
   destination: "./public/images/uploaded",
@@ -17,31 +26,51 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.use(express.static('public')); 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.engine('.hbs', handlebar.engine({ 
+  extname: '.hbs',
+  defaultLayout: 'main',
+  helpers: {
+    navLink: function(url, options){
+      return '<li' + 
+          ((url == app.locals.activeRoute) ? ' class="active" ' : '') + 
+          '><a href="' + url + '">' + options.fn(this) + '</a></li>';
+    },
+    equal: function (lvalue, rvalue, options) {
+      if (arguments.length < 3)
+          throw new Error("Handlebars Helper equal needs 2 parameters");
+      if (lvalue != rvalue) {
+          return options.inverse(this);
+      } else {
+          return options.fn(this);
+      }
+    }  
+  }
+}));
+app.set('view engine', '.hbs');
+
 
 // setting up default route
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/views/home.html"));
+app.get("/", function(req, res) {
+  res.render("home", {});
 });
 
 // setting up route for /about
-app.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname + "/views/about.html"));
+app.get("/about", function(req, res) {
+  res.render("about", {});
 });
 
-app.get("/employees/add", (req, res) => {
-  res.sendFile(path.join(__dirname + "/views/addEmployee.html"));
+app.get("/employees/add", function(req, res) {
+  res.render("addEmployee", {});
 });
 
-app.get("/images/add", (req, res) => {
-  res.sendFile(path.join(__dirname + "/views/addImage.html"));
+app.get("/images/add", function(req, res) {
+  res.render("addImage", {});
 });
 
-app.get('/images', (req, res) =>
-{
+app.get('/images', function(req, res) {
     fs.readdir("./public/images/uploaded", function(err, items){
-        res.json({images:items});
+        //res.json({images:items});
+        res.render("images", {"images": items});
     });
 });
 
