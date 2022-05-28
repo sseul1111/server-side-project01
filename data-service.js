@@ -4,6 +4,7 @@ var departments = new Array();
 
 var fs = require('fs');
 const { response } = require('express');
+const { resolve } = require('path');
 var exports = module.exports = {};
 
 
@@ -85,12 +86,18 @@ exports.getEmployeesByManager = function(magager) {
 }
 
 exports.getEmployeeByNum = function(num) {
-  return new Promise((resovle, reject) => {
-    let filtered = employees.filter(employees => employees.employeeNum == num);
-    resolve(filtered);
-    if (filtered.length == 0) {
-      reject("no results returned");
+  return new Promise((resolve, reject) => {
+    let filtered = null;
+    for (let i = 0; i < employees.length; i++) {
+      if (employees[i].employeeNum == num) {
+        filtered = employees[i];
+      }
     }
+    if(!filtered) {
+      reject("no results returned");
+      return;
+    }
+    resolve(filtered);
   });
 }
 

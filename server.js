@@ -48,13 +48,12 @@ app.engine('.hbs', handlebar.engine({
 }));
 app.set('view engine', '.hbs');
 
-
+//****************** APP.GET ******************
 // setting up default route
 app.get("/", function(req, res) {
   res.render("home", {});
 });
 
-// setting up route for /about
 app.get("/about", function(req, res) {
   res.render("about", {});
 });
@@ -74,47 +73,49 @@ app.get('/images', function(req, res) {
     });
 });
 
-app.get("/employees", (req, res) => {
+app.get("/employees", function(req, res) {
   if(req.query.status) {
     dataService.getEmployeesByStatus(req.query.status)
-    .then((data) => res.json(data))
-    .catch((err) => res.json({"message" : err}))
+    .then((data) => res.render("employees", {employees: data}))
+    .catch(() => res.render({message: "no result"}))
   }
   else if(req.query.department) {
     dataService.getEmployeesByDepartment(req.query.department)
-    .then((data) => res.json(data))
-    .catch((err) => res.json({"message" : err}))
+    .then((data) => res.render("employees", {employees: data}))
+    .catch(() => res.render({message: "no result"}))
   }
   else if(req.query.manager) {
     dataService.getEmployeesByManager(req.query.manager)
-    .then((data) => res.json(data))
-    .catch((err) => res.json({"massage" : err}))
+    .then((data) => res.render("employees", {employees: data}))
+    .catch(() => res.render({message: "no result"}))
   }
   else {
     dataService.getAllEmployees()
-    .then((data) => res.json(data))
-    .catch((err) => res.json({"message" : err}))
+    .then((data) => res.render("employees", {employees: data}))
+    .catch(() => res.render({message: "no result"}))
   }
 });
 
-app.get("/employee/:employeeNum", (req, res) => {
-  dataService.getEmployeeByNum(req.params.employeeNum)
-  .then((data) => res.json(data))
-  .catch((err) => res.json({"message" : err}));
+app.get("/employee/:empNum", function(req, res) {
+  dataService.getEmployeeByNum(req.params.empNum)
+  .then((data) => res.render("employee", {employee: data}))
+  .catch(() => res.render("employees", {message: "no result"}));
 });
 
-app.get("/managers", (req, res) => {
-  dataService.getManagers()
-  .then((data) => res.json(data))
-  .catch((err) => res.json({"message" : err}))
-});
+// app.get("/managers", (req, res) => {
+//   dataService.getManagers()
+//   .then((data) => res.json(data))
+//   .catch((err) => res.json({"message" : err}))
+// });
 
-app.get("/departments", (req, res) => {
+app.get("/departments", function(req, res) {
   dataService.getDepartments()
-  .then((data) => res.json(data))
-  .catch((err) => res.json({"message" : err}))
+  .then((data) => res.render("departments", {departments: data}))
+  .catch(() => res.render({message: "no result"}));
 });
 
+
+//****************** APP.POST ******************
 app.post("/images/add", upload.single("imageFile"), (req, res) => {
   res.redirect("/images");
 });
@@ -123,6 +124,13 @@ app.post("/employees/add", (req, res) => {
   dataService.addEmployee(req.body)
   .then(() => res.redirect("/employees"));
 });
+
+app.post("/employee/update", (req, res) => {
+  console.log(req.body);
+  res.redirect("/employees");
+});
+
+
 
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
