@@ -47,7 +47,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="addressState">Address (State):</label>
-              <inputclass="form-control"id="addressState"name="addressState"type="text" value="{{viewDataemployee.addressState}}" />
+              <inputclass="form-control"id="addressState"name="addressState"type="text" value="{{viewData.employee.addressState}}" />
             </div>
           </div>
           <div class="col-md-3">
@@ -64,22 +64,22 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="isManager">Manager:</label>
-              <input class="form-control"type="checkbox"id="isManager"name="isManager"  {{#if viewDataemployeeisManager}}checked{{/if}}  />
+              <input class="form-control"type="checkbox"id="isManager"name="isManager"  {{#if viewData.employee.isManager}}checked{{/if}}  />
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
               <label for="employeeManagerNum">Employee'sManagerNumber:<label>
-              <input class="form-control"id="employeeManagerNum"name="employeeManaerNum"type="text" value="{{viewDataemployeeemployeeManagerNum}}">
+              <input class="form-control"id="employeeManagerNum"name="employeeManaerNum"type="text" value="{{viewData.employee.employeeManagerNum}}">
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
               <label>Status:</label><br />
               <label  class="checkbox-inline">
-              <input type="radio" id="statusFT"name="status"value="FullTime" {{#equal viewDataemployee.status"Full Time"}}checke{{/equal}}/> FullTime</label>
+              <input type="radio" id="statusFT"name="status"value="FullTime" {{#equal viewData.employee.status"Full Time"}}checke{{/equal}}/> FullTime</label>
               <label class="checkbox-inline">
-              <input type="radio" id="statusPT"name="status"value="Part Time" {{#equal viewDataemployeestatus"Part Time"}}checked{{/equal}}/> Part Time</label>
+              <input type="radio" id="statusPT"name="status"value="Part Time" {{#equal viewData.employee.status"Part Time"}}checked{{/equal}}/> Part Time</label>
             </div>
           </div>
           <div class="col-md-3">

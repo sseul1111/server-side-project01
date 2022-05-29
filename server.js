@@ -160,6 +160,12 @@ app.get("/employee/:empNum", function(req, res) {
   });
 });
 
+app.get("/employees/delete/:empNum", function(req, res) {
+  deleteEmployeeByNum(req.params.empNum)
+  .then((data) => res.redirect('/employees'))
+  .catch(() => res.status(500).send("Unable to Remove Employee / Employee not found)"))
+})
+
 // app.get("/managers", (req, res) => {
 //   dataService.getManagers()
 //   .then((data) => res.json(data))

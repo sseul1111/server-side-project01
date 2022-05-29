@@ -233,3 +233,19 @@ exports.deleteDepartmentById = function(id) {
     .catch(() => reject("unable to delete department"))
   });
 };
+
+exports.deleteDepartmentByNum = function(empNum) {
+  return new Promise((resolve, reject) => {
+    Employee.destroy({
+      where:{
+        employeeNum: empNum
+      }
+    })
+    .then(() => resolve(Employee.destroy({
+      where:{
+        employeeNum: empNum
+      }
+    })))
+    .catch(() => reject("unable to delete employee"))
+  });
+}
